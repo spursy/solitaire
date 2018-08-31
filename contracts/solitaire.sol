@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-contract solitaire {
+contract Solitaire {
     uint randomNonce = 0;
     uint[] randomNumArray;
     mapping(address => uint) PayoffMatrix;
@@ -8,8 +8,6 @@ contract solitaire {
     function GetNonce() public returns (uint) {
         return randomNonce ++;
     }
-
-    // internal
 
     function GenerateRandom() public payable  returns (uint) {
         uint currentNonce = GetNonce();//GetNonce();
@@ -23,14 +21,14 @@ contract solitaire {
         uint randomNum = GenerateRandom();
         
         if (randomNumArray.length == 0) {
-            PayoffMatrix[this] = randomNum;
+            PayoffMatrix[msg.sender] = randomNum;
             randomNumArray.push(randomNum);
         } else {
             calculateWiners(randomNum);
         }   
     }
 
-    function calculateWiners(uint randomNum) internal  returns(uint[]) {
+    function calculateWiners(uint randomNum) public  returns(uint[]) {
         bool isMapping = false;
         uint deleteCount = 0;
         uint length = randomNumArray.length;
@@ -49,11 +47,22 @@ contract solitaire {
         if (!isMapping) {
             PayoffMatrix[this] = randomNum;
             randomNumArray.push(randomNum);
+        } else {
+            address ower = msg.sender;
+            ower.transfer(0.1 * 10^8);
         }
         return randomNumArray;
     }
 
     function getRandomNumArray() public view returns(uint[]) {
         return randomNumArray;
+    }
+
+    function GetRandomNumByAddress() public view returns(uint) {
+        return PayoffMatrix[msg.sender];
+    }
+
+    function () public payable{
+        SolitaireMain();
     }
 }
