@@ -21,32 +21,36 @@ contract solitaire {
 
     function SolitaireMain() public payable returns(uint) {
         uint randomNum = GenerateRandom();
-        uint length = randomNumArray.length;
-        bool isMapping = false;
-        uint deleteCount = 0;
         
-        if (length == 0) {
+        if (randomNumArray.length == 0) {
             PayoffMatrix[this] = randomNum;
             randomNumArray.push(randomNum);
-        }
-        
+        } else {
+            calculateWiners(randomNum);
+        }   
+    }
+
+    function calculateWiners(uint randomNum) internal  returns(uint[]) {
+        bool isMapping = false;
+        uint deleteCount = 0;
+        uint length = randomNumArray.length;
         for (uint index = 0; index < length; index ++) {
             if (isMapping) {
                 delete randomNumArray[length-1-deleteCount]; 
                 randomNumArray.length--; 
                 deleteCount ++;
-            }
-            else if (randomNumArray[index] == randomNum) {
+            } else if (randomNumArray[index] == randomNum) {
                 isMapping = true;
                 delete randomNumArray[length-1]; 
                 randomNumArray.length--; 
                 deleteCount ++;
-            } else {
-                PayoffMatrix[this] = randomNum;
-                randomNumArray.push(randomNum);
-            }
+            } 
         }
-        return randomNum;
+        if (!isMapping) {
+            PayoffMatrix[this] = randomNum;
+            randomNumArray.push(randomNum);
+        }
+        return randomNumArray;
     }
 
     function getRandomNumArray() public view returns(uint[]) {
