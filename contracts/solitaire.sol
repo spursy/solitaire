@@ -5,6 +5,8 @@ contract Solitaire {
     uint[] randomNumArray;
     mapping(address => uint) PayoffMatrix;
 
+    event AddNewRandomNum(address user, uint RandomNum);
+    event WinCoin(address user, uint256 CoinCount);
     function GetNonce() public returns (uint) {
         return randomNonce ++;
     }
@@ -47,9 +49,12 @@ contract Solitaire {
         if (!isMapping) {
             PayoffMatrix[this] = randomNum;
             randomNumArray.push(randomNum);
+            emit AddNewRandomNum(msg.sender, randomNum);
         } else {
             address ower = msg.sender;
-            ower.transfer(0.1 * 10^8);
+            require(address(this).balance > 0.1 * 10^18 * deleteCount, "Contract address does not exist enough money.");
+            ower.transfer(0.1 * 10^18 * deleteCount);
+            emit WinCoin(msg.sender, 0.1 * 10 ^ 18);
         }
         return randomNumArray;
     }
@@ -64,5 +69,8 @@ contract Solitaire {
 
     function () public payable{
         SolitaireMain();
+    }
+   
+    function deposit() public payable {
     }
 }
