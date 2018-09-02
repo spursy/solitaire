@@ -1,6 +1,8 @@
 pragma solidity ^0.4.23;
 
-contract Solitaire {
+import "contracts/Console.sol";
+
+contract Solitaire is Console{
     uint randomNonce = 0;
     uint[] randomNumArray;
     mapping(address => uint) PayoffMatrix;
@@ -8,10 +10,6 @@ contract Solitaire {
     event AddNewRandomNum(address user, uint RandomNum);
     event WinCoin(address user, uint256 CoinCount);
     event Deposit(address user, uint256 amout);
-
-    constructor() public payable{
-    }
-
     function GetNonce() public returns (uint) {
         return randomNonce ++;
     }
@@ -87,17 +85,14 @@ contract Solitaire {
 }
 
 contract CallTest {
+    function deposit() public payable {
+    }
+
     event logSendEvent(address to, uint value);
-    event depositvalue(address sender, uint value);
-    
     function transferEther(address towho) public payable {
         require(address(this).balance > 100000000000000000, "Contract address does not exist enough money.");
         towho.transfer(100000000000000000);
         emit logSendEvent(towho, 100000000000000000);
-    }
-
-    function deposit() public payable {
-        emit depositvalue(msg.sender, msg.value);
     }
 
     function GetBalance() public view returns(uint256) {
