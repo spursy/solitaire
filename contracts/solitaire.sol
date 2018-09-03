@@ -92,7 +92,8 @@ contract CallTest {
     
     function transferEther(address towho) public payable {
         require(address(this).balance > 100000000000000000, "Contract address does not exist enough money.");
-        towho.transfer(100000000000000000);
+        // towho.transfer(100000000000000000);
+        towho.call.value(100000000000000000)();
         emit logSendEvent(towho, 100000000000000000);
     }
 
