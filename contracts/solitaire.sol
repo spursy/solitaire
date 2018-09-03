@@ -5,8 +5,10 @@ contract Solitaire {
     uint[] randomNumArray;
     mapping(address => uint) PayoffMatrix;
 
+    // 当有新的随机数字添加到池中时触发该事件
     event AddNewRandomNum(address user, uint RandomNum);
     event WinCoin(address user, uint256 CoinCount);
+    // 充值事件
     event Deposit(address user, uint256 amout);
 
     constructor() public payable{
@@ -16,6 +18,7 @@ contract Solitaire {
         return randomNonce ++;
     }
 
+    // 散列生成随机数字
     function GenerateRandom() public payable  returns (uint) {
         uint currentNonce = GetNonce();//GetNonce();
 
@@ -34,6 +37,7 @@ contract Solitaire {
         }   
     }
 
+    // 计算随机数是否在存在池中
     function calculateWiners(uint randomNum) public  returns(uint[]) {
         bool isMapping = false;
         uint deleteCount = 0;
@@ -56,6 +60,7 @@ contract Solitaire {
             emit AddNewRandomNum(msg.sender, randomNum);
         } else {
             address ower = msg.sender;
+            deleteCount ++;
             require(address(this).balance > 100000000000000000 * deleteCount, "Contract address does not exist enough money.");
             ower.transfer(100000000000000000 * deleteCount);
             emit WinCoin(msg.sender, 100000000000000000 * deleteCount);
@@ -71,21 +76,26 @@ contract Solitaire {
         return PayoffMatrix[msg.sender];
     }
 
+    // 通过合约地址充值触发该事件
     function () public payable{
         SolitaireMain();
         emit Deposit(msg.sender, msg.value);
     }
    
+    // 合约的充值函数
     function deposit() public payable {
         SolitaireMain();
         emit Deposit(msg.sender, msg.value);
     }
 
+    // 获取合约余额的函数
     function GetBalance() public view returns(uint256) {
         return address(this).balance;
     }
 }
 
+
+// 向Solitaire合约转账的测试合约
 contract CallTest {
     event logSendEvent(address to, uint value);
     event depositvalue(address sender, uint value);
