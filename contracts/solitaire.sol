@@ -1,6 +1,8 @@
 pragma solidity ^0.4.23;
 
 contract Solitaire {
+    uint depositAmount = 100 finney;
+    uint rollbackAmount = 90 finney;
     uint randomNonce = 0;
     uint[] randomNumArray;
     mapping(address => uint[]) PayoffMatrix;
@@ -39,33 +41,34 @@ contract Solitaire {
 
     // 计算随机数是否在存在池中
     function calculateWiners(uint randomNum) public  returns(uint[]) {
-        bool isMapping = false;
-        uint deleteCount = 0;
+        bool isMatching = false;
         uint length = randomNumArray.length;
+        uint matchingindex;
         for (uint index = 0; index < length; index ++) {
-            if (isMapping) {
-                delete randomNumArray[length-1-deleteCount]; 
-                randomNumArray.length--; 
-                deleteCount ++;
-            } else if (randomNumArray[index] == randomNum) {
-                isMapping = true;
-                delete randomNumArray[length-1]; 
-                randomNumArray.length--; 
-                deleteCount ++;
-            } 
+            if (randomNum == randomNumArray[index]) {
+                isMatching = true;
+                matchingindex = index;
+            }
         }
-        if (!isMapping) {
-            PayoffMatrix[msg.sender].push(randomNum);
+        if (!isMatching) {
+            // PayoffMatrix[msg.sender].push(randomNum);
             randomNumArray.push(randomNum);
             emit AddNewRandomNum(msg.sender, randomNum);
         } else {
+            for (uint i = length - 1; i >= matchingindex; i --) {
+                delete randomNumArray[i];
+            }
             address ower = msg.sender;
-            deleteCount ++;
-            require(address(this).balance >= 1 ether * deleteCount, "Contract address does not exist enough money.");
-            ower.transfer(1 ether * deleteCount);
-            emit WinCoin(msg.sender, 1 ether * deleteCount);
+            uint interval = length - matchingindex + 1;
+            require(address(this).balance >= rollbackAmount * interval, "Contract address does not exist enough money.");
+            ower.transfer(rollbackAmount * interval);
+            emit WinCoin(msg.sender, rollbackAmount * interval);
         }
         return randomNumArray;
+    }
+
+    function getRandomArrayLength() public view returns(uint) {
+        return randomNumArray.length;
     }
 
     function getRandomNumArray() public view returns(uint[]) {
@@ -78,6 +81,7 @@ contract Solitaire {
 
     // 通过合约地址充值触发该事件
     function () public payable{
+        require(msg.value == depositAmount, "Deposit money must be 100 finnery");
         SolitaireMain();
         emit Deposit(msg.sender, msg.value);
     }
@@ -97,14 +101,15 @@ contract Solitaire {
 
 // 向Solitaire合约转账的测试合约
 contract CallTest {
+    uint depositAmount = 100 finney;
     event logSendEvent(address to, uint value);
     event depositvalue(address sender, uint value);
     
     function transferEther(address towho) public payable {
-        require(address(this).balance > 100000000000000000, "Contract address does not exist enough money.");
-        // towho.transfer(100000000000000000);
-        towho.call.value(1 ether)();
-        emit logSendEvent(towho, 100000000000000000);
+        require(address(this).balance >= depositAmount, "Contract address does not exist enough money.");
+        // towho.transfer(depositAmount);
+        towho.call.value(depositAmount)();
+        emit logSendEvent(towho, depositAmount);
     }
 
     function deposit() public payable {
