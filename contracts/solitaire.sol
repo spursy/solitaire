@@ -3,7 +3,7 @@ pragma solidity ^0.4.23;
 contract Solitaire {
     uint randomNonce = 0;
     uint[] randomNumArray;
-    mapping(address => uint) PayoffMatrix;
+    mapping(address => uint[]) PayoffMatrix;
 
     // 当有新的随机数字添加到池中时触发该事件
     event AddNewRandomNum(address user, uint RandomNum);
@@ -55,15 +55,15 @@ contract Solitaire {
             } 
         }
         if (!isMapping) {
-            PayoffMatrix[this] = randomNum;
+            PayoffMatrix[msg.sender].push(randomNum);
             randomNumArray.push(randomNum);
             emit AddNewRandomNum(msg.sender, randomNum);
         } else {
             address ower = msg.sender;
             deleteCount ++;
-            require(address(this).balance > 100000000000000000 * deleteCount, "Contract address does not exist enough money.");
-            ower.transfer(100000000000000000 * deleteCount);
-            emit WinCoin(msg.sender, 100000000000000000 * deleteCount);
+            require(address(this).balance >= 1 ether * deleteCount, "Contract address does not exist enough money.");
+            ower.transfer(1 ether * deleteCount);
+            emit WinCoin(msg.sender, 1 ether * deleteCount);
         }
         return randomNumArray;
     }
@@ -72,8 +72,8 @@ contract Solitaire {
         return randomNumArray;
     }
 
-    function GetRandomNumByAddress() public view returns(uint) {
-        return PayoffMatrix[msg.sender];
+    function GetRandomNumByAddress(address addr) public view returns(uint[]) {
+        return PayoffMatrix[addr];
     }
 
     // 通过合约地址充值触发该事件
@@ -103,7 +103,7 @@ contract CallTest {
     function transferEther(address towho) public payable {
         require(address(this).balance > 100000000000000000, "Contract address does not exist enough money.");
         // towho.transfer(100000000000000000);
-        towho.call.value(100000000000000000)();
+        towho.call.value(1 ether)();
         emit logSendEvent(towho, 100000000000000000);
     }
 
