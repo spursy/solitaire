@@ -96,6 +96,7 @@ contract SolitaireUpgrate {
    
     // 合约的充值函数
     function deposit() public payable {
+        require(msg.value == depositAmount, "Deposit money must be 100 finnery");
         SolitaireMain();
         emit Deposit(msg.sender, msg.value);
     }

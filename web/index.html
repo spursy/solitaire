@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+    <div class="container">
+
+        <h1>Solitaire</h1>
+
+        <!-- <h2 id="info"></h2> -->
+
+        <button id="getcontractbalance" style='font-size:10px;color:green;font-weight:bold'>Get Contract Balance</button>
+        <label for="name" class="col-lg-2 control-label">Contract balance :</label>
+        <input id="contractbalance" type="text" disabled>
+
+        <button id="getkeys" style='font-size:10px;color:green;font-weight:bold'>Get All Keys :</button>
+        <label for="name" class="col-lg-2 control-label">All keys</label>
+        <input id="allkeys" type="text" disabled>
+
+        <button id="byekey" style='font-size:10px;color:red;font-weight:bolder'>Buy One Key :</button>
+        <label for="name" class="col-lg-2 control-label">My new key</label>
+        <input id="mykey" type="text" disabled>
+
+    </div>
+
+    <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script src="./node_modules/truffle-contract/dist/truffle-contract.min.js"></script>
+
+    <script src="./app.js"></script>
+
+    <script>
+        $("#getcontractbalance").click(function() {
+            App.getContractBalance();
+        });
+        $("#getkeys").click(function() {
+            App.getAllKeys();
+        });
+        $("#byekey").click(function() {
+            App.byeKey();
+        });
+    </script>
+
+</body>
+</html>
