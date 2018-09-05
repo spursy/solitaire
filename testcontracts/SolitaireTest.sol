@@ -97,3 +97,26 @@ contract Solitaire {
         return address(this).balance;
     }
 }
+
+
+// 向Solitaire合约转账的测试合约
+contract CallTest {
+    uint depositAmount = 100 finney;
+    event logSendEvent(address to, uint value);
+    event depositvalue(address sender, uint value);
+    
+    function transferEther(address towho) public payable {
+        require(address(this).balance >= depositAmount, "Contract address does not exist enough money.");
+        // towho.transfer(depositAmount);
+        towho.call.value(depositAmount)();
+        emit logSendEvent(towho, depositAmount);
+    }
+
+    function deposit() public payable {
+        emit depositvalue(msg.sender, msg.value);
+    }
+
+    function GetBalance() public view returns(uint256) {
+        return address(this).balance;
+    }
+}
