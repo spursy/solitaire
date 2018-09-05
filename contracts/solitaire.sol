@@ -48,6 +48,7 @@ contract Solitaire {
             if (randomNum == randomNumArray[index]) {
                 isMatching = true;
                 matchingindex = index;
+                break;
             }
         }
         if (!isMatching) {
