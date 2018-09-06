@@ -9,7 +9,6 @@ contract SolitaireUpgrate {
 
     uint randomNonce = 0;
     uint[] randomNumArray = new uint[](20);
-    mapping(address => uint[]) PayoffMatrix;
     mapping(uint => address) StakeOwner;
 
     // 当有新的随机数字添加到池中时触发该事件
@@ -54,29 +53,22 @@ contract SolitaireUpgrate {
             if (randomNum == randomNumArray[index]) {
                 isMatching = true;
                 matchingindex = index;
+                break;
             }
         }
         if (!isMatching) {
-            PayoffMatrix[msg.sender].push(randomNum);
-            // randomNumArray.push(randomNum);
-            randomNumArray[randomNumArrayLength] = randomNum;
+            randomNumArray[randomNumArrayLength] == randomNum;
             randomNumArrayLength ++;
             StakeOwner[randomNum] = msg.sender;
             emit AddNewRandomNum(msg.sender, randomNum);
         } else {
-            uint arrLength = randomNumArrayLength;
-            for (uint i = arrLength - 1; i >= matchingindex; i --) {
-                randomNumArray[i] = 0;
-                randomNumArrayLength --;
-            }
-            address firstOwner = StakeOwner[randomNum];
-            address secondOwner = msg.sender;
-            uint interval = arrLength - matchingindex + 1;
+            uint interval = randomNumArrayLength - matchingindex + 1;
+            randomNumArrayLength = matchingindex;
             require(address(this).balance >= depositAmount * interval, "Contract address does not exist enough money.");
-            firstOwner.transfer(firstWinerAmount * interval);
-            secondOwner.transfer(secondWinnerAmount * interval);
-            emit WinCoin(firstOwner, firstWinerAmount * interval);
-            emit WinCoin(secondOwner, secondWinnerAmount * interval);
+            StakeOwner[randomNum].transfer(firstWinerAmount * interval);
+            msg.sender.transfer(secondWinnerAmount * interval);
+            emit WinCoin(StakeOwner[randomNum], firstWinerAmount * interval);
+            emit WinCoin(msg.sender, secondWinnerAmount * interval);
         }
         return randomNumArray;
     }
@@ -85,12 +77,8 @@ contract SolitaireUpgrate {
         return randomNumArrayLength;
     }
 
-    function getRandomNumArray() public view returns(uint[]) {
-        return randomNumArray;
-    }
-
-    function GetRandomNumByAddress(address addr) public view returns(uint[]) {
-        return PayoffMatrix[addr];
+    function getRandomNumArray() public view returns(uint, uint[]) {
+        return (randomNumArrayLength,randomNumArray);
     }
 
     // 通过合约地址充值触发该事件
