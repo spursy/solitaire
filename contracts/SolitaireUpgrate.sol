@@ -95,7 +95,7 @@ contract SolitaireUpgrate {
 
     // 通过合约地址充值触发该事件
     function () public payable{
-        revert();
+        revert("Call deposit fun then generate new key");
         // require(msg.value == depositAmount, "Deposit money must be 100 finnery");
         // SolitaireMain();
         // emit Deposit(msg.sender, msg.value);
