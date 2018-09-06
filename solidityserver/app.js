@@ -8,6 +8,7 @@ const logger = require('koa-logger')
 
 const index = require('./routes/index')
 const users = require('./routes/users')
+const cors = require('@koa/cors');
 
 // error handler
 onerror(app)
@@ -16,9 +17,10 @@ onerror(app)
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
+app.use(cors())
 app.use(json())
 app.use(logger())
-app.use(require('koa-static')(__dirname + '/public'))
+app.use(require('koa-static')(__dirname + '/public'));
 
 app.use(views(__dirname + '/views', {
   extension: 'ejs'

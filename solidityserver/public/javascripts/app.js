@@ -14,7 +14,8 @@ App = {
     },
     initContract: function() {
         // 加载Adoption.json，保存了Adoption的ABI（接口说明）信息及部署后的网络(地址)信息，它在编译合约的时候生成ABI，在部署的时候追加网络信息
-        $.getJSON('SolitaireUpgrate.json', function(data) {
+        $.getJSON('http://127.0.0.1:3000/contract/solitaire', function(data) {
+            alert(JSON.stringify(data));
           var SolitaireArtifact = data;
           App.contracts.Solitaire = TruffleContract(SolitaireArtifact);
           // Set the provider for our contract

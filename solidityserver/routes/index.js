@@ -1,19 +1,14 @@
-const router = require('koa-router')()
-
-router.get('/', async (ctx, next) => {
-  await ctx.render('index', {
-    title: 'Hello Koa 2!'
-  })
+const abi_path = require("../../build/contracts/SolitaireUpgrate.json");
+const fs = require('fs');
+const router = require('koa-router')({
+  prefix: '/contract'
 })
 
-router.get('/string', async (ctx, next) => {
-  ctx.body = 'koa2 string'
-})
-
-router.get('/json', async (ctx, next) => {
-  ctx.body = {
-    title: 'koa2 json'
-  }
+router.get('/solitaire', async (ctx, next) => {
+  console.log("i ni ni i ni n i i");
+  
+  let file_data = abi_path;
+  ctx.body = file_data;
 })
 
 module.exports = router
