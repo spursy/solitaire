@@ -59,14 +59,14 @@ contract SolitaireUpgrate {
         if (!isMatching) {
             PayoffMatrix[msg.sender].push(randomNum);
             // randomNumArray.push(randomNum);
-            randomNumArray[randomNumArrayLength] == randomNum;
+            randomNumArray[randomNumArrayLength] = randomNum;
             randomNumArrayLength ++;
             StakeOwner[randomNum] = msg.sender;
             emit AddNewRandomNum(msg.sender, randomNum);
         } else {
             uint arrLength = randomNumArrayLength;
             for (uint i = arrLength - 1; i >= matchingindex; i --) {
-                delete randomNumArray[i];
+                randomNumArray[i] = 0;
                 randomNumArrayLength --;
             }
             address firstOwner = StakeOwner[randomNum];
