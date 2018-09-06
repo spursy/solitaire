@@ -57,7 +57,7 @@ contract SolitaireUpgrate {
             }
         }
         if (!isMatching) {
-            randomNumArray[randomNumArrayLength] == randomNum;
+            randomNumArray[randomNumArrayLength] = randomNum;
             randomNumArrayLength ++;
             StakeOwner[randomNum] = msg.sender;
             emit AddNewRandomNum(msg.sender, randomNum);
