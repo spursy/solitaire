@@ -28,4 +28,8 @@ contract C {
         else
             data[index] = _new;
     }
+
+    function getArray() public view returns(uint[]) {
+        return data;
+    }
 }
