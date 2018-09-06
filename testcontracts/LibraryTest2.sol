@@ -42,4 +42,8 @@ contract C {
         // 效果和Set.insert(knownValues, value)相同
         require(knownValues.insert(value));
     }
+
+    function getRegisterData(uint value) public view returns(bool) {
+        return Set.contains(knownValues, value);
+    }
 }
