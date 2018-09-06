@@ -61,6 +61,7 @@ contract SolitaireUpgrate {
         } else {
             for (uint i = length - 1; i >= matchingindex; i --) {
                 delete randomNumArray[i];
+                randomNumArray.length --;
             }
             address firstOwner = StakeOwner[randomNum];
             address secondOwner = msg.sender;
