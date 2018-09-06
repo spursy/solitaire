@@ -29,7 +29,7 @@ contract SolitaireUpgrate {
     function GenerateRandom() public payable  returns (uint) {
         uint currentNonce = GetNonce();//GetNonce();
 
-        uint random = uint(keccak256(abi.encodePacked(now, currentNonce)))%10;
+        uint random = uint(keccak256(abi.encodePacked(now, currentNonce)))%20;
 
         return random;
     }
