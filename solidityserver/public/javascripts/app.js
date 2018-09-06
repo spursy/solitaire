@@ -75,11 +75,18 @@ App = {
         App.contracts.Solitaire.deployed().then(function(instance) {
             var solitaireInstance = instance;
             // 调用合约的getRandomNumArray(), 用call读取信息不用消耗gas
-            return solitaireInstance.GetRandomNumByAddress.call();
+            return solitaireInstance.GetRandomNumByAddress.call($('#youraddress').val());
           }).then(function(randomNumArray) {
-              $('#mykeys').val(randomNumArray);
+              if(randomNumArray.length == 0) {
+                alert("请输入合法的地址 ！");
+              } else {
+                $('#mykeys').val(randomNumArray);
+              }
           }).catch(function(err) {
-            console.log(err.message);
+            // console.log(err.message);
+                if (err.message.trim() == "Invalid number of arguments to Solidity function") {
+                    alert("请输入合法的地址 ！");
+                } 
           });
     }
 }
