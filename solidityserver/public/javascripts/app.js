@@ -3,6 +3,9 @@ App = {
     contracts: {},
 
     init: function() {
+        $('#getkeys').attr("disabled","disabled");
+        $('#getcontractbalance').attr("disabled","disabled");
+        $('#byekey').attr("disabled","disabled");
         if (typeof web3 !== 'undefined') {
             App.web3Provider = web3.currentProvider;
           } else {
@@ -14,12 +17,15 @@ App = {
     },
     initContract: function() {
         // 加载Adoption.json，保存了Adoption的ABI（接口说明）信息及部署后的网络(地址)信息，它在编译合约的时候生成ABI，在部署的时候追加网络信息
-        $.getJSON('http://127.0.0.1:3000/contract/solitaire', function(data) {
-            alert(JSON.stringify(data));
+        $.getJSON('http://193.112.195.120:3000/contract/solitaire', function(data) {
           var SolitaireArtifact = data;
           App.contracts.Solitaire = TruffleContract(SolitaireArtifact);
           // Set the provider for our contract
           App.contracts.Solitaire.setProvider(App.web3Provider);
+          $('#getkeys').removeAttr("disabled");
+          $('#getcontractbalance').removeAttr("disabled");
+          $('#byekey').removeAttr("disabled");
+          alert("Game starting !!! ");
         });
       },
     getContractBalance: function() {
