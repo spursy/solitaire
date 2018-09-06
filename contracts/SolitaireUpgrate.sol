@@ -89,9 +89,10 @@ contract SolitaireUpgrate {
 
     // 通过合约地址充值触发该事件
     function () public payable{
-        require(msg.value == depositAmount, "Deposit money must be 100 finnery");
-        SolitaireMain();
-        emit Deposit(msg.sender, msg.value);
+        revert();
+        // require(msg.value == depositAmount, "Deposit money must be 100 finnery");
+        // SolitaireMain();
+        // emit Deposit(msg.sender, msg.value);
     }
    
     // 合约的充值函数
