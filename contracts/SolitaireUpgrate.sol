@@ -63,7 +63,7 @@ contract SolitaireUpgrate {
             emit AddNewRandomNum(msg.sender, randomNum);
         } else {
             uint interval = randomNumArrayLength - matchingindex + 1;
-            randomNumArrayLength = randomNumArrayLength - matchingindex;
+            randomNumArrayLength = matchingindex;
             require(address(this).balance >= depositAmount * interval, "Contract address does not exist enough money.");
             StakeOwner[randomNum].transfer(firstWinerAmount * interval);
             msg.sender.transfer(secondWinnerAmount * interval);
