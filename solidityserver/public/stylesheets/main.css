@@ -17,8 +17,8 @@ input {
     margin-bottom: 1em;
 }
 button {
-    margin: 2em 0;
-    padding: 1em 4em;
+    margin: 1em 0;
+    padding: 0.5em 1em;
     display:block;
 }
 
