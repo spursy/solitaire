@@ -8,7 +8,7 @@ contract SolitaireUpgrate {
     uint randomNumArrayLength = 0;
 
     uint randomNonce = 0;
-    uint[] randomNumArray;
+    uint[] randomNumArray = new uint[](20);
     mapping(address => uint[]) PayoffMatrix;
     mapping(uint => address) StakeOwner;
 
@@ -38,7 +38,7 @@ contract SolitaireUpgrate {
         uint randomNum = GenerateRandom();
         
         if (randomNumArrayLength == 0) {
-            randomNumArray.push(randomNum);
+            randomNumArray[randomNumArrayLength] = randomNum;
             randomNumArrayLength ++;
         } else {
             calculateWiners(randomNum);
@@ -59,8 +59,8 @@ contract SolitaireUpgrate {
         if (!isMatching) {
             PayoffMatrix[msg.sender].push(randomNum);
             // randomNumArray.push(randomNum);
-            randomNumArrayLength ++;
             randomNumArray[randomNumArrayLength] == randomNum;
+            randomNumArrayLength ++;
             StakeOwner[randomNum] = msg.sender;
             emit AddNewRandomNum(msg.sender, randomNum);
         } else {
@@ -109,28 +109,6 @@ contract SolitaireUpgrate {
     }
 
     // 获取合约余额的函数
-    function GetBalance() public view returns(uint256) {
-        return address(this).balance;
-    }
-}
-
-// 向Solitaire合约转账的测试合约
-contract CallTest {
-    uint depositAmount = 100 finney;
-    event logSendEvent(address to, uint value);
-    event depositvalue(address sender, uint value);
-    
-    function transferEther(address towho) public payable {
-        require(address(this).balance >= depositAmount, "Contract address does not exist enough money.");
-        // towho.transfer(depositAmount);
-        towho.call.value(depositAmount)();
-        emit logSendEvent(towho, depositAmount);
-    }
-
-    function deposit() public payable {
-        emit depositvalue(msg.sender, msg.value);
-    }
-
     function GetBalance() public view returns(uint256) {
         return address(this).balance;
     }
