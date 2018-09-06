@@ -3,9 +3,11 @@ App = {
     contracts: {},
 
     init: function() {
+        alert('The game is not starting, please give me some seconds.')
         $('#getkeys').attr("disabled","disabled");
         $('#getcontractbalance').attr("disabled","disabled");
         $('#byekey').attr("disabled","disabled");
+        $("#getmykeys").attr("disabled","disabled");
         if (typeof web3 !== 'undefined') {
             App.web3Provider = web3.currentProvider;
           } else {
@@ -25,6 +27,7 @@ App = {
           $('#getkeys').removeAttr("disabled");
           $('#getcontractbalance').removeAttr("disabled");
           $('#byekey').removeAttr("disabled");
+          $("#getmykeys").removeAttr("disabled");
           alert("Game starting !!! ");
         });
       },
@@ -67,6 +70,17 @@ App = {
                 console.log(err.message);
             });
         });
+    },
+    getKeysByAddress: function() {
+        App.contracts.Solitaire.deployed().then(function(instance) {
+            var solitaireInstance = instance;
+            // 调用合约的getRandomNumArray(), 用call读取信息不用消耗gas
+            return solitaireInstance.GetRandomNumByAddress.call();
+          }).then(function(randomNumArray) {
+              $('#mykeys').val(randomNumArray);
+          }).catch(function(err) {
+            console.log(err.message);
+          });
     }
 }
 

@@ -27,6 +27,10 @@
         <label for="name" class="col-lg-2 control-label">My new key :</label>
         <input id="mykey" type="text" disabled>
 
+        <!-- <button id="getmykeys" style='font-size:15px;color:blue;font-weight:bold'>Get My Keys:</button>
+        <label for="name" class="col-lg-2 control-label">All My Keys :</label>
+        <input id="mykeys" type="text" disabled> -->
+
     </div>
 
     <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script> -->
@@ -45,6 +49,9 @@
         });
         $("#byekey").click(function() {
             App.byeKey();
+        });
+        $("#getmykeys").click(function() {
+            App.getKeysByAddress();
         });
     </script>
 
