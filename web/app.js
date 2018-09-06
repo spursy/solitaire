@@ -46,7 +46,6 @@ App = {
     },
     byeKey: function() {
         event.preventDefault();
-
         // 获取用户账号
         web3.eth.getAccounts(function(error, accounts) {
             if (error) {

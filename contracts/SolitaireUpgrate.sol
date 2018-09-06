@@ -2,9 +2,8 @@ pragma solidity ^0.4.23;
 
 contract SolitaireUpgrate {
     uint depositAmount = 100 finney;
-    uint rollbackAmount = 90 finney;
-    uint firstWinerAmount = 50 finney;
-    uint secondWinnerAmount = 40 finney;
+    uint firstWinerAmount = 30 finney;
+    uint secondWinnerAmount = 70 finney;
 
     uint randomNonce = 0;
     uint[] randomNumArray;
@@ -28,7 +27,7 @@ contract SolitaireUpgrate {
     function GenerateRandom() public payable  returns (uint) {
         uint currentNonce = GetNonce();//GetNonce();
 
-        uint random = uint(keccak256(abi.encodePacked(now, msg.sender, currentNonce)))%10;
+        uint random = uint(keccak256(abi.encodePacked(now, currentNonce)))%10;
 
         return random;
     }
@@ -66,7 +65,7 @@ contract SolitaireUpgrate {
             address firstOwner = StakeOwner[randomNum];
             address secondOwner = msg.sender;
             uint interval = length - matchingindex + 1;
-            require(address(this).balance >= rollbackAmount * interval, "Contract address does not exist enough money.");
+            require(address(this).balance >= depositAmount * interval, "Contract address does not exist enough money.");
             firstOwner.transfer(firstWinerAmount * interval);
             secondOwner.transfer(secondWinnerAmount * interval);
             emit WinCoin(firstOwner, firstWinerAmount * interval);
