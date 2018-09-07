@@ -49,7 +49,8 @@ App = {
           // 调用合约的getRandomNumArray(), 用call读取信息不用消耗gas
           return solitaireInstance.getRandomNumArray.call();
         }).then(function(randomNumArray) {
-            $('#allkeys').val(randomNumArray);
+            let arr = randomNumArray[1].splice(0, randomNumArray[0]);
+            $('#allkeys').val(arr);
         }).catch(function(err) {
           console.log(err.message);
         });
