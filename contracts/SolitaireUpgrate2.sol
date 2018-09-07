@@ -1,6 +1,6 @@
 pragma solidity ^0.4.23;
 
-contract SolitaireUpgrate {
+contract SolitaireUpgrate2 {
     uint depositAmount = 100 finney;
     uint firstWinerAmount = 30 finney;
     uint secondWinnerAmount = 70 finney;
