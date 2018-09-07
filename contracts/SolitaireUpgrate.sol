@@ -100,4 +100,8 @@ contract SolitaireUpgrate {
     function GetBalance() public view returns(uint256) {
         return address(this).balance;
     }
+
+    function GetTestNumber() public pure returns(uint256) {
+        return 666;
+    }
 }
