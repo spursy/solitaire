@@ -9,7 +9,7 @@ contract SolitaireUpgrate {
 
     uint randomNonce = 0;
     uint[] randomNumArray = new uint[](20);
-    mapping(uint => address) StakeOwner;
+    address[] addArray = new address[](20);
 
     // 当有新的随机数字添加到池中时触发该事件
     event AddNewRandomNum(address user, uint RandomNum);
@@ -58,16 +58,16 @@ contract SolitaireUpgrate {
         }
         if (!isMatching) {
             randomNumArray[randomNumArrayLength] = randomNum;
+            addArray[randomNumArrayLength] = msg.sender;
             randomNumArrayLength ++;
-            StakeOwner[randomNum] = msg.sender;
             emit AddNewRandomNum(msg.sender, randomNum);
         } else {
             uint interval = randomNumArrayLength - matchingindex + 1;
             randomNumArrayLength = matchingindex;
             require(address(this).balance >= depositAmount * interval, "Contract address does not exist enough money.");
-            StakeOwner[randomNum].transfer(firstWinerAmount * interval);
+            addArray[matchingindex].transfer(firstWinerAmount * interval);
             msg.sender.transfer(secondWinnerAmount * interval);
-            emit WinCoin(StakeOwner[randomNum], firstWinerAmount * interval);
+            emit WinCoin(addArray[matchingindex], firstWinerAmount * interval);
             emit WinCoin(msg.sender, secondWinnerAmount * interval);
         }
         return randomNumArray;
