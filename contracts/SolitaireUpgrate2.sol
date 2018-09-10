@@ -25,9 +25,8 @@ contract SolitaireUpgrate2 {
 
     // 散列生成随机数字
     function GenerateRandom() public payable  returns (uint) {
-        uint currentNonce = GetNonce();//GetNonce();
-
-        uint random = uint(keccak256(abi.encodePacked(now, currentNonce)))%10;
+        uint currentNonce = GetNonce();
+        uint random = uint(keccak256(abi.encodePacked(now, currentNonce)))%20;
 
         return random;
     }
