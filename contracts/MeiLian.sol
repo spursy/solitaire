@@ -271,7 +271,7 @@ contract PausableToken is StandardToken, Pausable {
  *
  * @dev Implementation of Bec Token based on the basic standard token.
  */
-contract BecToken is PausableToken {
+contract MeiLian is PausableToken {
     /**
     * Public variables of the token
     * The following variables are OPTIONAL vanities. One does not have to include them.
