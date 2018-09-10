@@ -1,4 +1,4 @@
-const Solitaire = artifacts.require('./SolitaireUpgrate.sol');
+const Solitaire = artifacts.require('./MeiLian.sol');
 
 module.exports = function(developer) {
     developer.deploy(Solitaire);
