@@ -51,6 +51,7 @@ contract SolitaireUpgrate2 {
             if (randomNum == randomNumArray[index]) {
                 isMatching = true;
                 matchingindex = index;
+                break;
             }
         }
         if (!isMatching) {
